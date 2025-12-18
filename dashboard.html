@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Student Performance Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Student Performance Report</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="records.html" class="nav-link">Records</a>
+                <a href="statistics.html" class="nav-link">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="header-left">
+                    <div class="header-icon">📊</div>
+                    <div class="header-titles">
+                        <h1>Dashboard</h1>
+                        <p class="subtitle">Add and manage student performance data</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-info">
+                        <div class="info-item">
+                            <span class="info-label">Active Users:</span>
+                            <span class="info-value" id="activeUsers">8</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated:</span>
+                            <span class="info-value" id="lastUpdated">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Students</p>
+                        <p class="stat-number" id="headerTotalStudents">0</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">⭐</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Avg Performance</p>
+                        <p class="stat-number" id="headerAvgPerformance">0%</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">🏆</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Pass Rate</p>
+                        <p class="stat-number" id="headerPassRate">0%</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">📈</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Top Score</p>
+                        <p class="stat-number" id="headerTopScore">0</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Form Section -->
+            <section class="form-section" id="dashboard">
+                <h2 class="section-title">Add/Edit Student Performance</h2>
+                <form id="studentForm" class="student-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="studentId">Student ID</label>
+                            <input type="text" id="studentId" placeholder="e.g., STU001" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" placeholder="Enter full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="student@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="English">English</option>
+                                <option value="Science">Science</option>
+                                <option value="History">History</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="marks">Marks (0-100)</label>
+                            <input type="number" id="marks" min="0" max="100" placeholder="Enter marks" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="grade">Grade</label>
+                            <select id="grade" required>
+                                <option value="">Select grade</option>
+                                <option value="A+">A+ (90-100)</option>
+                                <option value="A">A (80-89)</option>
+                                <option value="B+">B+ (70-79)</option>
+                                <option value="B">B (60-69)</option>
+                                <option value="C">C (50-59)</option>
+                                <option value="F">F (Below 50)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Student</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                        <button type="button" id="cancelEdit" class="btn btn-cancel" style="display:none;">Cancel Edit</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Recent Records Section -->
+            <section class="table-section">
+                <h2 class="section-title">Recent Student Records</h2>
+                <div class="table-wrapper">
+                    <table class="data-table" id="recentTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTableBody">
+                            <tr class="empty-row">
+                                <td colspan="8">No records yet. Add a new student to get started!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="view-all-link">
+                    <a href="records.html" class="btn btn-primary">View All Records →</a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load recent records on dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            renderRecentRecords();
+            updateStatistics();
+            setupEventListeners();
+        });
+
+        function renderRecentRecords() {
+            const recentTableBody = document.getElementById('recentTableBody');
+            const recentData = students.slice(-5).reverse();
+
+            if (recentData.length === 0) {
+                recentTableBody.innerHTML = '<tr class="empty-row"><td colspan="8">No records yet. Add a new student to get started!</td></tr>';
+                return;
+            }
+
+            recentTableBody.innerHTML = recentData.map(student => `
+                <tr>
+                    <td><strong>${escapeHtml(student.studentId)}</strong></td>
+                    <td>${escapeHtml(student.studentName)}</td>
+                    <td>${escapeHtml(student.email)}</td>
+                    <td>${escapeHtml(student.subject)}</td>
+                    <td><strong>${student.marks}</strong></td>
+                    <td><strong>${student.grade}</strong></td>
+                    <td>
+                        <span class="status-badge ${student.marks >= 50 ? 'status-pass' : 'status-fail'}">
+                            ${student.marks >= 50 ? '✓ Pass' : '✗ Fail'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="btn-edit" onclick="editRecord('${student.id}')">Edit</button>
+                            <button class="btn-delete" onclick="deleteRecord('${student.id}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Override renderTable to also update recent records
+        const originalRenderTable = renderTable;
+        renderTable = function(dataToRender = students) {
+            originalRenderTable(dataToRender);
+            renderRecentRecords();
+        };
+    </script>
+</body>
+</html>

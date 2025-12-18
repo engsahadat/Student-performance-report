@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records - Student Performance Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Student Performance Report</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="records.html" class="nav-link active">Records</a>
+                <a href="statistics.html" class="nav-link">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="header-left">
+                    <div class="header-icon">📋</div>
+                    <div class="header-titles">
+                        <h1>Student Records</h1>
+                        <p class="subtitle">View and manage all student records</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-info">
+                        <div class="info-item">
+                            <span class="info-label">Total Records:</span>
+                            <span class="info-value" id="recordCount">0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated:</span>
+                            <span class="info-value" id="lastUpdated">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <span class="stat-icon">📊</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Students</p>
+                        <p class="stat-number" id="headerTotalStudents">0</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">✓</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Passed</p>
+                        <p class="stat-number" id="headerPassed">0</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">✗</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Failed</p>
+                        <p class="stat-number" id="headerFailed">0</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">📌</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Unique Subjects</p>
+                        <p class="stat-number" id="headerSubjects">0</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Search Section -->
+            <section class="search-section">
+                <h2 class="section-title">Search & Filter</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search by name, ID, or email..." class="search-input">
+                    <select id="subjectFilter" class="filter-select">
+                        <option value="">All Subjects</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="English">English</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                    </select>
+                    <button id="exportBtn" class="btn btn-export">📥 Export to JSON</button>
+                    <button id="loadDataBtn" class="btn btn-primary">📂 Load Sample Data</button>
+                </div>
+            </section>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <div class="table-wrapper">
+                    <table class="data-table" id="studentTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr class="empty-row">
+                                <td colspan="8">No student records found. Add records from Dashboard to get started!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" id="firstPageBtn" onclick="goToPage(1)">«</button>
+                        <button class="pagination-btn" id="prevPageBtn" onclick="goToPage(currentPage - 1)">‹</button>
+                        <div class="pagination-numbers" id="paginationNumbers"></div>
+                        <button class="pagination-btn" id="nextPageBtn" onclick="goToPage(currentPage + 1)">›</button>
+                        <button class="pagination-btn" id="lastPageBtn" onclick="goToPage(totalPages)">»</button>
+                    </div>
+                    <div class="pagination-size">
+                        <label>Rows per page:</label>
+                        <select id="rowsPerPage" onchange="changeRowsPerPage(this.value)">
+                            <option value="10">10</option>
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Pagination variables
+        let currentPage = 1;
+        let rowsPerPage = 25;
+        let filteredStudents = [];
+        let totalPages = 1;
+
+        // Load and display records on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            filteredStudents = students;
+            renderTableWithPagination();
+            updateRecordStatistics();
+            setupSearchAndFilter();
+        });
+
+        function setupSearchAndFilter() {
+            const searchInput = document.getElementById('searchInput');
+            const subjectFilter = document.getElementById('subjectFilter');
+            const exportBtn = document.getElementById('exportBtn');
+            const loadDataBtn = document.getElementById('loadDataBtn');
+
+            searchInput.addEventListener('input', handleSearch);
+            subjectFilter.addEventListener('change', handleSubjectFilter);
+            exportBtn.addEventListener('click', exportToJSON);
+            
+            if (loadDataBtn) {
+                loadDataBtn.addEventListener('click', () => {
+                    loadFromJSON();
+                    filteredStudents = students;
+                    renderTableWithPagination();
+                    updateRecordStatistics();
+                });
+            }
+        }
+
+        // Pagination functions
+        function renderTableWithPagination() {
+            const dataToRender = filteredStudents;
+            
+            if (rowsPerPage === 'all') {
+                renderTable(dataToRender);
+                updatePaginationInfo(dataToRender.length, dataToRender.length, dataToRender.length);
+                document.querySelector('.pagination-controls').style.display = 'none';
+                return;
+            } else {
+                document.querySelector('.pagination-controls').style.display = 'flex';
+            }
+
+            totalPages = Math.ceil(dataToRender.length / rowsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages || 1;
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = dataToRender.slice(startIndex, endIndex);
+
+            renderTable(paginatedData);
+            updatePaginationInfo(startIndex + 1, Math.min(endIndex, dataToRender.length), dataToRender.length);
+            updatePaginationButtons();
+        }
+
+        function updatePaginationInfo(start, end, total) {
+            document.getElementById('showingStart').textContent = total > 0 ? start : 0;
+            document.getElementById('showingEnd').textContent = end;
+            document.getElementById('totalRecords').textContent = total;
+        }
+
+        function updatePaginationButtons() {
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
+
+            firstPageBtn.disabled = currentPage === 1;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            lastPageBtn.disabled = currentPage === totalPages;
+
+            // Generate page numbers
+            const paginationNumbers = document.getElementById('paginationNumbers');
+            paginationNumbers.innerHTML = '';
+
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (currentPage <= 3) {
+                endPage = Math.min(5, totalPages);
+            }
+            if (currentPage > totalPages - 3) {
+                startPage = Math.max(1, totalPages - 4);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'pagination-btn' + (i === currentPage ? ' active' : '');
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                paginationNumbers.appendChild(pageBtn);
+            }
+        }
+
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderTableWithPagination();
+        }
+
+        function changeRowsPerPage(value) {
+            rowsPerPage = value === 'all' ? 'all' : parseInt(value);
+            currentPage = 1;
+            renderTableWithPagination();
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const subjectTerm = document.getElementById('subjectFilter').value;
+
+            filteredStudents = students;
+
+            if (searchTerm) {
+                filteredStudents = filteredStudents.filter(student =>
+                    student.studentName.toLowerCase().includes(searchTerm) ||
+                    student.studentId.toLowerCase().includes(searchTerm) ||
+                    student.email.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (subjectTerm) {
+                filteredStudents = filteredStudents.filter(student => student.subject === subjectTerm);
+            }
+
+            currentPage = 1; // Reset to first page on search
+            renderTableWithPagination();
+        }
+
+        function handleSubjectFilter() {
+            handleSearch();
+        }
+
+        function updateRecordStatistics() {
+            if (students.length === 0) {
+                document.getElementById('headerTotalStudents').textContent = '0';
+                document.getElementById('headerPassed').textContent = '0';
+                document.getElementById('headerFailed').textContent = '0';
+                document.getElementById('headerSubjects').textContent = '0';
+                document.getElementById('recordCount').textContent = '0';
+                return;
+            }
+
+            const passed = students.filter(s => s.marks >= 50).length;
+            const failed = students.length - passed;
+            const uniqueSubjects = new Set(students.map(s => s.subject)).size;
+
+            document.getElementById('headerTotalStudents').textContent = students.length;
+            document.getElementById('headerPassed').textContent = passed;
+            document.getElementById('headerFailed').textContent = failed;
+            document.getElementById('headerSubjects').textContent = uniqueSubjects;
+            document.getElementById('recordCount').textContent = students.length;
+        }
+
+        // Override updateStatistics to also update record statistics
+        const originalUpdateStatistics = updateStatistics;
+        updateStatistics = function() {
+            originalUpdateStatistics();
+            updateRecordStatistics();
+        };
+    </script>
+</body>
+</html>

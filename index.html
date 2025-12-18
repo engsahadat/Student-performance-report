@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Student Performance Report</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="records.html" class="nav-link">Records</a>
+                <a href="statistics.html" class="nav-link">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="header-left">
+                    <div class="header-icon">📊</div>
+                    <div class="header-titles">
+                        <h1>Student Performance Report</h1>
+                        <p class="subtitle">Manage and track student performance metrics</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-info">
+                        <div class="info-item">
+                            <span class="info-label">Active Users:</span>
+                            <span class="info-value" id="activeUsers">8</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated:</span>
+                            <span class="info-value" id="lastUpdated">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Students</p>
+                        <p class="stat-number" id="headerTotalStudents">0</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">⭐</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Avg Performance</p>
+                        <p class="stat-number" id="headerAvgPerformance">0%</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">🏆</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Pass Rate</p>
+                        <p class="stat-number" id="headerPassRate">0%</p>
+                    </div>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-icon">📈</span>
+                    <div class="stat-content">
+                        <p class="stat-label">Top Score</p>
+                        <p class="stat-number" id="headerTopScore">0</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h2 class="section-title">Welcome to Student Performance Report System</h2>
+                <p class="welcome-text">A comprehensive platform for managing and analyzing student performance data. Organize your student records, track performance metrics, and gain valuable insights through detailed analytics.</p>
+            </section>
+
+            <!-- Quick Access Cards -->
+            <section class="quick-access">
+                <h2 class="section-title">Quick Access</h2>
+                <div class="card-grid">
+                    <div class="quick-card">
+                        <div class="card-icon">📝</div>
+                        <h3>Dashboard</h3>
+                        <p>Add and manage student performance data in one convenient place.</p>
+                        <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                    </div>
+
+                    <div class="quick-card">
+                        <div class="card-icon">📋</div>
+                        <h3>Records</h3>
+                        <p>View all student records, search, filter, and export data to JSON.</p>
+                        <a href="records.html" class="btn btn-primary">View Records</a>
+                    </div>
+
+                    <div class="quick-card">
+                        <div class="card-icon">📊</div>
+                        <h3>Statistics</h3>
+                        <p>Analyze student performance with comprehensive statistics and insights.</p>
+                        <a href="statistics.html" class="btn btn-primary">View Statistics</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2 class="section-title">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">✅</div>
+                        <h4>Full CRUD Operations</h4>
+                        <p>Create, read, update, and delete student records with ease.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">💾</div>
+                        <h4>Data Persistence</h4>
+                        <p>All data is automatically saved to local storage.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">🔍</div>
+                        <h4>Advanced Search</h4>
+                        <p>Search and filter records by name, ID, email, or subject.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <h4>Analytics</h4>
+                        <p>Comprehensive statistics and grade distribution analysis.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">📥</div>
+                        <h4>Export Data</h4>
+                        <p>Export all records to JSON format for backup and analysis.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">🎨</div>
+                        <h4>Beautiful UI</h4>
+                        <p>Modern design with red and black gradient color scheme.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about-section">
+                <h2 class="section-title">About This System</h2>
+                <div class="about-content">
+                    <p>The Student Performance Report System is a web-based application designed to help educators, administrators, and students track academic performance efficiently.</p>
+                    <p><strong>Built with:</strong> HTML5, CSS3, JavaScript, and LocalStorage</p>
+                    <p><strong>Features:</strong> Real-time data management, comprehensive analytics, and export functionality.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load and display overview statistics on home page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            updateHomePageStatistics();
+        });
+
+        function updateHomePageStatistics() {
+            if (students.length === 0) {
+                document.getElementById('headerTotalStudents').textContent = '0';
+                document.getElementById('headerAvgPerformance').textContent = '0%';
+                document.getElementById('headerPassRate').textContent = '0%';
+                document.getElementById('headerTopScore').textContent = '0';
+                return;
+            }
+
+            const marks = students.map(s => s.marks);
+            const total = marks.length;
+            const avg = Math.round((marks.reduce((a, b) => a + b, 0) / total));
+            const passCount = students.filter(s => s.marks >= 50).length;
+            const passRate = Math.round((passCount / total) * 100);
+            const highest = Math.max(...marks);
+
+            document.getElementById('headerTotalStudents').textContent = total;
+            document.getElementById('headerAvgPerformance').textContent = avg + '%';
+            document.getElementById('headerPassRate').textContent = passRate + '%';
+            document.getElementById('headerTopScore').textContent = highest;
+        }
+    </script>
+</body>
+</html>
